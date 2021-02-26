@@ -7,15 +7,17 @@ class Popup {
     static close(id) {
         const popup = document.getElementById(id)
 
-        popup.classList.toggle('show')
-        blackout.classList.toggle('show')
+        popup.classList.remove('show')
+        blackout.classList.remove('show')
     }
 
     static open(id) {
         const popup = document.getElementById(id)
 
-        popup.classList.toggle('show')
-        blackout.classList.toggle('show')
+        popup.classList.add('show')
+        blackout.classList.add('show')
+
+        popup.querySelector('input[data-focus]').focus()
 
         onceEventListener(blackout, 'click', () => Popup.close(id))
     }

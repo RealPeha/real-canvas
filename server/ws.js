@@ -70,10 +70,17 @@ const listen = server => {
                         room.broadcast(client, 'mouse', data)
                         break
                     case 'startDraw':
-                        client.strokes.push({ points: [] })
+                        client.strokes.push({
+                            points: [{
+                                x: data.x,
+                                y: data.y,
+                            }],
+                        })
 
-                        room.broadcast(client, 'startDraw')
+                        room.broadcast(client, 'startDraw', data)
                         break
+                    case 'chat':
+                        room.broadcast(client, 'chat', data)
                 }
             } catch (err) {
                 console.log('err')

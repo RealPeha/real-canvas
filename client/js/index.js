@@ -20,23 +20,39 @@ menu.addEventListener('mouseleave', () => {
     menu.style.left = '-150px'
 })
 
+document.querySelector('#room-select > form')
+    .addEventListener('submit', e => {
+        e.preventDefault()
+
+        Room.goto(e.target.popupId.value)
+    })
+
+document.querySelector('#send-message > form')
+    .addEventListener('submit', e => {
+        e.preventDefault()
+
+        Room.broadcast(e.target.message.value)
+        Popup.close('send-message')
+
+        e.target.message.value = ''
+    })
+
 ctx.lineWidth = 5
 ctx.lineCap = 'round'
 ctx.lineJoin = 'round'
 
 const room = window.location.hash && window.location.hash.substring(1).trim()
 
-if (room) {
-    Notification.create(`You connected to the <b>${room}</b> room`)
-} else {
-    Notification.create(`You connected to the <b>global</b> room`)
-}
-
 const painter = new Painter(canvas)
 const ws = new WSClient(room)
 
-painter.onMouseDown = () => {
-    ws.send('startDraw')
+window.ws = ws
+
+painter.onMouseDown = (e) => {
+    ws.send('startDraw', {
+        x: e.pageX,
+        y: e.pageY,
+    })
 }
 
 painter.onMouseMove = (e) => {

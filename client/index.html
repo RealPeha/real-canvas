@@ -11,21 +11,41 @@
     <canvas></canvas>
     <div class='menu' id='menu'>
         <button onclick="Popup.open('room-select')">Change room</button>
+        <button onclick="Popup.open('send-message')">Chat</button>
     </div>
     <div class='menu-open' id='menu-open'>Menu</div>
     <div id='notifications'></div>
     <div id='popups'>
+        <!-- Room Select Popup -->
         <div class="popup" id='room-select'>
-            <div class="popup-body">
-                <div class="popup-header">Input room id</div>
-                <div class="popup-content">
-                    <input id='popupId' type='text' />
+            <form>
+                <div class="popup-body">
+                    <div class="popup-header">Input room id</div>
+                    <div class="popup-content">
+                        <input id='popupId' type='text' placeholder='global' data-focus />
+                    </div>
                 </div>
-            </div>
-            <div class='buttons'>
-                <button onclick="Room.goto(document.getElementById('popupId').value)">Select</button>
-                <button onclick="Popup.close('room-select')">Cancel</button>
-            </div>
+                <div class='buttons'>
+                    <button>Enter</button>
+                    <button onclick="Popup.close('room-select')">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Send Message Popup -->
+        <div class="popup" id='send-message'>
+            <form>
+                <div class="popup-body">
+                    <div class="popup-header">Input message</div>
+                    <div class="popup-content">
+                        <input id='message' type='text' data-focus />
+                    </div>
+                </div>
+                <div class='buttons'>
+                    <button type='submit'>Broadcast</button>
+                    <button onclick="Popup.close('send-message')">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
     <div id='blackout'></div>

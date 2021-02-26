@@ -6,7 +6,7 @@ const WebSocket = window.WebSocket || window.MozWebSocket
 
 class WSClient {
     constructor(room = 'global') {
-        this.ws = new WebSocket(`ws://ws.peha.fun?room=${room}`)
+        this.ws = new WebSocket(`ws://canvas.peha.fun?room=${room}`)
         this.room = room
         this.clients = new Map()
 
@@ -34,6 +34,11 @@ class WSClient {
         const client = this.clients.get(id)
 
         switch (type) {
+            case 'chat':
+                Notification.create(`
+                    <span class='circle' style='background-color: ${client.color};'></span>${data.text}
+                `.trim())
+                break
             case 'new-client':
                 Notification.create(`
                     <span class='circle' style='background-color: ${data.color};'></span>New user has been <b>connected</b>
@@ -49,6 +54,8 @@ class WSClient {
                 this.clients.delete(id)
                 break
             case 'clients':
+                Notification.create(`You connected to the <b>${this.room || 'global'}</b> room.<br><b>Online:</b> ${data.clients.length}`)
+
                 this.color = data.client.color
                 
                 data.clients.forEach(client => {
@@ -56,7 +63,12 @@ class WSClient {
                 })
                 break
             case 'startDraw':
-                client.strokes.push({ points: [] })
+                client.strokes.push({
+                    points: [{
+                        x: data.x,
+                        y: data.y,
+                    }],
+                })
                 break
             case 'mouse':
                 if (data.isDrawing) {
