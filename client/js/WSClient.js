@@ -16,7 +16,10 @@ class WSClient {
 
     send(type, data) {
         if (this.ws.readyState === this.ws.OPEN) {
-            this.ws.send(JSON.stringify({ type, data }))
+            this.ws.send(JSON.stringify({
+                type,
+                data,
+            }))
         }
     }
 

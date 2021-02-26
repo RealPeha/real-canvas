@@ -5,18 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Infinity Canvas</title>
+    <title>Infinite Canvas</title>
 </head>
 <body>
     <canvas></canvas>
+    <div class='menu' id='menu'>
+        <button onclick="Popup.open('room-select')">Change room</button>
+    </div>
+    <div class='menu-open' id='menu-open'>Menu</div>
     <div id='notifications'></div>
     <div id='popups'>
-        <div class="popup" id='test'>
+        <div class="popup" id='room-select'>
             <div class="popup-body">
-                <div class="popup-header">Da</div>
-                <div class="popup-content">Net</div>
+                <div class="popup-header">Input room id</div>
+                <div class="popup-content">
+                    <input id='popupId' type='text' />
+                </div>
             </div>
-            <button>Test</button>
+            <div class='buttons'>
+                <button onclick="Room.goto(document.getElementById('popupId').value)">Select</button>
+                <button onclick="Popup.close('room-select')">Cancel</button>
+            </div>
         </div>
     </div>
     <div id='blackout'></div>
