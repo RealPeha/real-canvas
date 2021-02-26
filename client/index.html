@@ -5,13 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
-    <title>Infinite Canvas</title>
+    <title>Real Time Canvas</title>
 </head>
 <body>
     <canvas></canvas>
     <div class='menu' id='menu'>
         <button onclick="Popup.open('room-select')">Change room</button>
         <button onclick="Popup.open('send-message')">Chat</button>
+        <!-- <button onclick="Popup.open('about')">About</button> -->
     </div>
     <div class='menu-open' id='menu-open'>Menu</div>
     <div id='notifications'></div>
@@ -26,8 +27,8 @@
                     </div>
                 </div>
                 <div class='buttons'>
-                    <button>Enter</button>
-                    <button onclick="Popup.close('room-select')">Cancel</button>
+                    <button type='submit'>Enter</button>
+                    <button onclick="event.preventDefault();Popup.close('room-select')">Cancel</button>
                 </div>
             </form>
         </div>
@@ -43,9 +44,22 @@
                 </div>
                 <div class='buttons'>
                     <button type='submit'>Broadcast</button>
-                    <button onclick="Popup.close('send-message')">Cancel</button>
+                    <button onclick="event.preventDefault();Popup.close('send-message')">Cancel</button>
                 </div>
             </form>
+        </div>
+
+        <!-- About Popup -->
+        <div class="popup" id='about'>
+            <div class="popup-body">
+                <div class="popup-header">About</div>
+                <div class="popup-content">
+                    Text
+                </div>
+            </div>
+            <div class='buttons'>
+                <button onclick="Popup.close('send-message')">Ok</button>
+            </div>
         </div>
     </div>
     <div id='blackout'></div>

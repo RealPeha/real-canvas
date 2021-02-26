@@ -3,6 +3,7 @@ const WebSocket = require('ws')
 class Room {
     constructor(id) {
         this.id = id
+        console.log(id)
         this.clients = new Set()
     }
 

@@ -7,6 +7,8 @@ class Room {
     static broadcast(message) {
         if (message) {
             window.ws.send('chat', { text: message })
+
+            Notification.create('Successfully sent', 500)
         }
     }
 }

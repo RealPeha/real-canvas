@@ -37,7 +37,7 @@ class WSClient {
             case 'chat':
                 Notification.create(`
                     <span class='circle' style='background-color: ${client.color};'></span>${data.text}
-                `.trim())
+                `.trim(), 3500)
                 break
             case 'new-client':
                 Notification.create(`
