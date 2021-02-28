@@ -9,15 +9,10 @@ class Client {
         this.strokes = []
         this.mouse = {}
         this.socket = socket
-        this.lastTime = 0
     }
 
     send(data) {
-        const now = Date.now()
-
-        this.socket.send(JSON.stringify({ ...data, t: now - this.lastTime }))
-
-        this.lastTime = now
+        this.socket.send(JSON.stringify(data))
     }
 
     serialize() {

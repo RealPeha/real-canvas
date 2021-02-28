@@ -3,6 +3,7 @@ import WSClient from './WSClient.js'
 import Popup from './Popup.js'
 import Notification from './Notification.js'
 import Room from './Room.js'
+import lerp from './utils/lerp.js'
 import { canvas, ctx, width, height } from './init.js'
 
 window.Popup = Popup
@@ -81,7 +82,7 @@ const drawStrokes = (strokes) => {
 const draw = () => {
     ws.clients.forEach(client => {
         ctx.globalAlpha = .8
-        ctx.fillStyle = client.color
+        ctx.fillStyle = client.colo
 
         ctx.beginPath()
         ctx.arc(client.mouse.x, client.mouse.y, 10, 0, Math.PI * 2)

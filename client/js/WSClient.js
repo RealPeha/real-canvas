@@ -1,6 +1,7 @@
 import Client from './Client.js'
 import Notification from './Notification.js'
 import jsonSafeParse from './utils/jsonSafeParse.js'
+import lerp from './utils/lerp.js'
 
 const WebSocket = window.WebSocket || window.MozWebSocket
 
@@ -9,17 +10,26 @@ class WSClient {
         this.ws = new WebSocket(`ws://canvas.peha.fun?room=${room}`)
         this.room = room
         this.clients = new Map()
+        this.batch = []
 
         this.ws.onmessage = this.onMessage.bind(this)
         this.ws.onclose = this.onClose.bind(this)
+
+        this.run()
+    }
+
+    run() {
+        setInterval(() => {
+            if (this.batch.length) {
+                this.ws.send(JSON.stringify(this.batch))
+                this.batch = []
+            }
+        }, 1000 / 20)
     }
 
     send(type, data) {
         if (this.ws.readyState === this.ws.OPEN) {
-            this.ws.send(JSON.stringify({
-                type,
-                data,
-            }))
+            this.batch.push({ type, data })
         }
     }
 
@@ -78,11 +88,14 @@ class WSClient {
                     })
                 }
 
+                client.mouse.x = lerp(client.prevMouse.x, data.x, .5)
+                client.mouse.y = lerp(client.prevMouse.y, data.y, .5)
+
                 client.prevMouse.x = client.mouse.x
                 client.prevMouse.y = client.mouse.y
-    
-                client.mouse.x = data.x
-                client.mouse.y = data.y
+
+                // client.mouse.x = data.x
+                // client.mouse.y = data.y
 
                 client.t = t
         }

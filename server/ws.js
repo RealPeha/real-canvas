@@ -45,43 +45,37 @@ const listen = server => {
 
         socket.on('message', message => {
             try {
-                const { type, data } = jsonSafeParse(message)
+                jsonSafeParse(message, []).forEach(({ type, data }) => {
+                    switch (type) {
+                        case 'mouse':
+                            client.mouse.x = data.x
+                            client.mouse.y = data.y
 
-                switch (type) {
-                    case 'mouse':
-                        client.mouse.x = data.x
-                        client.mouse.y = data.y
+                            if (data.isDrawing) {
+                                const strokes = client.strokes[client.strokes.length - 1]
 
-                        if (data.isDrawing) {
-                            let strokes = client.strokes[client.strokes.length - 1]
-
-                            // if (!strokes) {
-                            //     strokes = { points: [] }
-
-                            //     client.strokes[client.strokes.length - 1] = strokes
-                            // }
-
-                            strokes.points.push({
-                                x: data.x,
-                                y: data.y,
+                                strokes.points.push({
+                                    x: data.x,
+                                    y: data.y,
+                                })
+                            }
+                            
+                            room.broadcast(client, 'mouse', data)
+                            break
+                        case 'startDraw':
+                            client.strokes.push({
+                                points: [{
+                                    x: data.x,
+                                    y: data.y,
+                                }],
                             })
-                        }
-                        
-                        room.broadcast(client, 'mouse', data)
-                        break
-                    case 'startDraw':
-                        client.strokes.push({
-                            points: [{
-                                x: data.x,
-                                y: data.y,
-                            }],
-                        })
 
-                        room.broadcast(client, 'startDraw', data)
-                        break
-                    case 'chat':
-                        room.broadcast(client, 'chat', data)
-                }
+                            room.broadcast(client, 'startDraw', data)
+                            break
+                        case 'chat':
+                            room.broadcast(client, 'chat', data)
+                    }
+                })
             } catch (err) {
                 console.log('err')
             }

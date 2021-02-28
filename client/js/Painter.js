@@ -7,13 +7,19 @@ class Painter {
         this.strokes = []
         this.currentStroke = { points: [] }
 
+        canvas.addEventListener('contextmenu', this.handleContextMenu.bind(this))
         canvas.addEventListener('mousedown', this.handleMouseDown.bind(this))
         canvas.addEventListener('mouseup', this.handleMouseUp.bind(this))
         canvas.addEventListener('mousemove', this.handleMouseMove.bind(this))
     }
 
+    handleContextMenu(e) {
+        e.preventDefault()
+    }
+
     handleMouseDown(e) {
         this.isDrawing = true
+
         this.currentStroke = {
             points: [this.point(e)],
         }
@@ -37,7 +43,10 @@ class Painter {
     }
 
     point(e) {
-        return { x: e.pageX, y: e.pageY }
+        return {
+            x: e.pageX,
+            y: e.pageY,
+        }
     }
 }
 

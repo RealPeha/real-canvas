@@ -26,6 +26,7 @@ canvas {
     display: flex;
     flex-direction: column;
     user-select: none;
+    z-index: 9;
 }
 
 .notification {
@@ -36,6 +37,7 @@ canvas {
     border: 2px solid #222;
     margin-bottom: 10px;
     padding: 7px 3px;
+    background-color: #fff;
 }
 
 .circle {
