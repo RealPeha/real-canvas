@@ -24,7 +24,7 @@ class WSClient {
                 this.ws.send(JSON.stringify(this.batch))
                 this.batch = []
             }
-        }, 1000 / 20)
+        }, 1000 / 30)
     }
 
     send(type, data) {

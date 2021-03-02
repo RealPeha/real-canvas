@@ -66,13 +66,25 @@ painter.onMouseMove = (e) => {
 
 const drawStrokes = (strokes) => {
     strokes.forEach(stroke => {
-        if (stroke.points.length) {
-            ctx.beginPath()
-            ctx.moveTo(stroke.points[0].x, stroke.points[0].y)
+        const points = stroke.points
 
-            stroke.points.forEach(point => {
-                ctx.lineTo(point.x, point.y)
-            })
+        if (points.length > 2) {
+            ctx.beginPath()
+            ctx.moveTo(points[0].x, points[0].y)
+
+            const to = points.length - 2
+
+            for (let i = 1; i < to; i++) {
+                const point = points[i]
+                const nextPoint = points[i + 1]
+
+                const xc = (point.x + nextPoint.x) / 2
+                const yc = (point.y + nextPoint.y) / 2
+
+                ctx.quadraticCurveTo(point.x, point.y, xc, yc)
+            }
+
+            ctx.quadraticCurveTo(points[to].x, points[to].y, points[to + 1].x, points[to + 1].y)
 
             ctx.stroke()
         }
